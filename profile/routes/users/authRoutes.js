@@ -4,8 +4,8 @@ const {
   login,
   checkAuth,
   logout,
-} = require("../controllers/authController");
-const authMiddleware = require("../middleware/authMiddleware");
+} = require("../../controllers/authController");
+const { authMiddleware } = require("../../middleware/authMiddleware");
 
 const router = express.Router();
 

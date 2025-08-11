@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
   try {
     const tokenDecode = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (tokenDecode.id) {
-      req.user = { id: tokenDecode.id };
+      req.user = { id: tokenDecode.id, role: tokenDecode.role };
     } else {
       return res.json({
         success: false,
@@ -23,4 +23,13 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+const isAdmin = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res
+      .status(403)
+      .json({ success: false, message: "Access denied: Admins only!" });
+  }
+  next();
+};
+
+module.exports = { authMiddleware, isAdmin };

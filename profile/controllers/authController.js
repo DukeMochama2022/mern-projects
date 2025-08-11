@@ -23,9 +23,13 @@ const signup = async (req, res) => {
     const user = new User({ username, email, password: hashedPassword });
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     res.cookie("token", token, {
       httpOnly: true, // prevents XSS
@@ -70,9 +74,13 @@ const login = async (req, res) => {
         .json({ success: false, message: "Invalid password!" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     res.cookie("token", token, {
       httpOnly: true, // prevents XSS
