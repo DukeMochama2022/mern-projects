@@ -16,9 +16,10 @@ const createService = async (req, res) => {
       duration,
       category,
       image,
-      provider: req.user._id,
+      provider: req.user.id
     });
 
+    await newService.save()
     res
       .status(201)
       .json({ success: true, message: "Service created successifully!" });
