@@ -7,9 +7,7 @@ const {
   deleteCategory,
 } = require("../../controllers/categoryController");
 
-const { createService } = require("../../controllers/serviceController");
 
-categoryRouter.post("/create-service", authMiddleware, isAdmin, createService);
 categoryRouter.post(
   "/create-category",
   authMiddleware,
