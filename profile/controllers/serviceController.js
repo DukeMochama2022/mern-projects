@@ -3,8 +3,25 @@ const Service = require("../models/Service");
 //create a service
 const createService = async (req, res) => {
   try {
-    const { name, description, price, duration, category, image } = req.body;
-    if (!name || !description || !price || !duration || !category) {
+    const {
+      bus_name,
+      name,
+      description,
+      price,
+      duration,
+      location,
+      category,
+      image,
+    } = req.body;
+    if (
+      !bus_name ||
+      !name ||
+      !description ||
+      !price ||
+      !duration ||
+      !category ||
+      !location
+    ) {
       return res
         .status(400)
         .json({ success: false, message: "Please provide all credentials!" });
@@ -17,12 +34,14 @@ const createService = async (req, res) => {
         .json({ success: false, message: "Service already exists!" });
     }
     const newService = new Service({
+      bus_name,
       name,
       description,
       price,
       duration,
       category,
       image,
+      location,
       provider: req.user.id,
     });
 
@@ -96,6 +115,8 @@ const updateService = async (req, res) => {
       message: "Service updated successifully!",
       data: service,
     });
+
+    
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

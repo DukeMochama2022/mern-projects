@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const serviceSchema = new mongoose.Schema(
   {
+    bus_name: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: [true, "Service name is required"],
@@ -23,6 +27,11 @@ const serviceSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
+    },
+
+    location: {
+      type: String,
       required: true,
     },
     provider: {

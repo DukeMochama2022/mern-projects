@@ -6,6 +6,7 @@ const { router } = require("./routes/users/authRoutes");
 const { userRouter } = require("./routes/users/userRoutes");
 const { categoryRouter } = require("./routes/admin/categoryRoutes");
 const { serviceRouter } = require("./routes/admin/serviceRoutes");
+const { productRouter } = require("./routes/admin/productRoutes");
 const adminRouter = require("./routes/admin/adminRoutes");
 
 const app = express();
@@ -22,6 +23,7 @@ app.use("/api/auth", router);
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/services", serviceRouter);
+app.use("/api/products", productRouter);
 
 const PORT = 5000 || process.env.PORT;
 connectDB();
