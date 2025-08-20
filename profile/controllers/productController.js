@@ -1,11 +1,10 @@
-const { findById } = require("../models/Product");
 const Product = require("../models/Product");
 
 //create a new product
 
 const createProduct = async (req, res) => {
   try {
-    const { businessName, location, productsOffered } = req.body;
+    const { businessName, location, productsOffered, owner } = req.body;
     if (!businessName || !location || !productsOffered) {
       return res
         .status(400)
@@ -13,6 +12,7 @@ const createProduct = async (req, res) => {
     }
 
     const newProduct = new Product({
+      owner: req.user.id,
       businessName,
       location,
       productsOffered,
@@ -78,7 +78,10 @@ const updateProduct = async (req, res) => {
     }
 
     //ensure that the admins/vendors  manage their own products
-    if (req.user.role !== "admin") {
+    if (
+      req.user.role !== "admin" &&
+      product.owner.toString() !== req.user._id.toString()
+    ) {
       return res.status(403).json({
         success: false,
         message: "Access denied: Admins only!",
@@ -114,7 +117,10 @@ const deleteProduct = async (req, res) => {
     }
 
     //ensure that the admins/vendors  manage their own products
-    if (req.user.role !== "admin") {
+    if (
+      req.user.role !== "admin" &&
+      product.owner.toString() !== req.user._id.toString()
+    ) {
       return res.status(403).json({
         success: false,
         message: "Access denied: Admins only!",

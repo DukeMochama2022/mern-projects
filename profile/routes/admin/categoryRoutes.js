@@ -4,9 +4,9 @@ const { authMiddleware, isAdmin } = require("../../middleware/authMiddleware");
 const {
   createCategory,
   getCategories,
+  updateCategory,
   deleteCategory,
 } = require("../../controllers/categoryController");
-
 
 categoryRouter.post(
   "/create-category",
@@ -15,6 +15,7 @@ categoryRouter.post(
   createCategory
 );
 categoryRouter.get("/get-categories", authMiddleware, isAdmin, getCategories);
+categoryRouter.put("/update-category", authMiddleware, isAdmin, updateCategory);
 categoryRouter.delete(
   "/delete-category/:id",
   authMiddleware,

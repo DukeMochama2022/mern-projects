@@ -8,6 +8,7 @@ const { categoryRouter } = require("./routes/admin/categoryRoutes");
 const { serviceRouter } = require("./routes/admin/serviceRoutes");
 const { productRouter } = require("./routes/admin/productRoutes");
 const adminRouter = require("./routes/admin/adminRoutes");
+const { bookingRouter } = require("./routes/users/bookingRoutes");
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/products", productRouter);
+app.use("/api/bookings", bookingRouter);
 
 const PORT = 5000 || process.env.PORT;
 connectDB();

@@ -27,14 +27,46 @@ const createCategory = async (req, res) => {
 };
 
 //getting all categories
-const getCategories= async(req,res)=>{
+const getCategories = async (req, res) => {
   try {
-    const categories=await Category.find()
-    res.status(200).json({success:true,data:categories})
+    const categories = await Category.find();
+    res.status(200).json({ success: true, data: categories });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
-}
+};
+
+//update a category
+const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ success: true, message: "Category ID is required!" });
+    }
+
+    const category = await Category.findById(id);
+    if (!category) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not found!" });
+    }
+
+    Object.assign(category, req.body);
+    await category.save();
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Category updated successifully!",
+        data: category,
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 //deleting the catgeory
 const deleteCategory = async (req, res) => {
@@ -63,4 +95,4 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-module.exports = { createCategory, deleteCategory,getCategories };
+module.exports = { createCategory, deleteCategory, getCategories,updateCategory };

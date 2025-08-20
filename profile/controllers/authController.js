@@ -121,7 +121,21 @@ const logout = async (req, res) => {
 //check-authentication logic
 const checkAuth = async (req, res) => {
   try {
-    return res.json({ success: true });
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found!" });
+    }
+    return res.json({
+      success: true,
+      message: "User is authenticated!",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

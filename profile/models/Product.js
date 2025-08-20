@@ -15,13 +15,18 @@ const productItemSchema = new mongoose.Schema(
       min: [0, "Price cannot be negative."],
     },
   },
-  { _id: false }
+  { _id: true }
 );
 
 const productSchema = new mongoose.Schema(
   {
     businessName: {
       type: String,
+      required: true,
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     location: {
